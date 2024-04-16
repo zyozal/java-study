@@ -30,8 +30,12 @@ public class MemberController {
                     mv.showMembers();
                     break;
                 case "4":
+                    mv.updatePassword();
                     break;
                 case "5":
+                    mv.deleteMember();
+                    break;
+                case "6":
                     boolean flag = mv.exitProgram();
                     if (flag) return;
             }
