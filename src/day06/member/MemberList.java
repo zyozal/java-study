@@ -2,7 +2,7 @@ package day06.member;
 
 public class MemberList {
 
-    Member[] mArr;
+    private Member[] mArr;
 
     MemberList() {
         this.mArr = new Member[0];
@@ -29,6 +29,7 @@ public class MemberList {
     // 한 명의 회원 정보 얻기
     Member get(String email) {
         int index = findIndex(email);
+        if (index == -1) return null;
         return get(index);
     }
     Member get(int index) {

@@ -22,7 +22,7 @@ public class MethodQuiz {
         int index2 = indexOf("라면땅");
         System.out.println("index2 = " + index2);
 
-//        pop();
+        //pop();
         remove("치킨");
         printFoods();
 
