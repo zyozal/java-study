@@ -1,4 +1,4 @@
-package day08.static_.Practice2;
+package day08.static_.practice2;
 
 public class Product {
     private String productName;
@@ -10,6 +10,6 @@ public class Product {
     }
 
     public void sellProduct() {
-
+        Store.addSale(this.price);
     }
 }
