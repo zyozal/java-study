@@ -1,168 +1,118 @@
-//package day09.book;
-//
-//import util.SimpleInput;
-//
-//public class LibraryView {
-//
-//    // 객체의 협력
-//    MemberRepository mr;
-//    SimpleInput si;
-//
-//    MemberView() {
-//        this.mr = new MemberRepository();
-//        this.si = new SimpleInput();
-//    }
-//
-//    void showMembers() {
-//        System.out.printf("========= 현재 회원 목록 (총 %d명) ==========\n", mr.members.size());
-//        for (Member m : mr.members.getMembers()) {
-//            System.out.println(m);
-//        }
-//    }
-//
-//    // 회원정보 생성을 위해 입력을 처리
-//    void inputNewMember() {
-//        String email = null;
-//        while (true) {
-//            email = si.input("- 이메일: ");
-//            if (!mr.isDuplicateEmail(email)) {
-//                break;
-//            }
-//            System.out.println("중복된 이메일입니다.");
-//        }
-//
-//        String name = si.input("- 이름: ");
-//        String password = si.input("- 패스워드: ");
-//        String gender = si.input("- 성별: ");
-//        if (gender.equals("남성")) {
-//            gender = MemberConstants.MALE;
-//        } else if (gender.equals("여성")) {
-//            gender = MemberConstants.FEMALE;
-//        }
-//
-//        int age = Integer.parseInt(si.input("- 나이: "));
-//
-//        // 입력데이터를 기반으로 한 명의 회원 객체를 생성
-//        Member newMember = new Member(email, password, name, gender, age);
-//
-//        // 위임 - 관심사의 분리
-//        mr.addNewMember(newMember);
-//    }
-//
-//    // 사용자에게 보여줄 전체 메뉴 화면 출력
-//    String showProgramMenu() {
-//        System.out.println("\n # 회원 정보를 입력해주세요");
-//        System.out.println("# 이름:");
-//        System.out.println("# 나이:");
-//        System.out.println("# 성별(M/F)");
-//        System.out.println("* 4. 회원 정보 수정하기");
-//        System.out.println("* 5. 회원 탈퇴하기");
-//        System.out.println("* 6. 회원 복구하기");
-//        System.out.println("* 7. 프로그램 종료");
-//        System.out.println("=============================");
-//
-//        String menuNumber = si.input("- 메뉴 번호: ");
-//        return menuNumber;
-//    }
-//
-//    // 프로그램 종료를 판단하는 입출력
-//    boolean exitProgram() {
-//        String exit = si.input("- 프로그램을 종료합니까? [y/n]\n>> ");
-//        if (exit.equals("y")) {
-//            System.out.println("프로그램을 종료합니다!");
-//            return true;
-//        }
-//        else {
-//            System.out.println("프로그램 종료를 취소합니다.");
-//            return false;
-//        }
-//    }
-//
-//    // 이메일 입력받고 찾은 회원정보를 출력
-//    public void getMember() {
-//        String inputEmail = si.input("# 조회하실 회원의 이메일을 입력하세요.\n>> ");
-//
-//        // 이메일이 일치하는 회원이 있는지 조회
-//        Member foundMember = mr.findMemberByEmail(inputEmail);
-//
-//        if (foundMember != null) {
-//            System.out.println("============= 조회 결과 ============");
-//            System.out.println("# 이름: " + foundMember.memberName);
-//            System.out.println("# 비밀번호: " + foundMember.password);
-//            System.out.println("# 성별: " + foundMember.gender);
-//            System.out.println("# 나이: " + foundMember.age);
-//            System.out.println();
-//        } else {
-//            System.out.println("\n# 해당 회원은 존재하지 않습니다.");
-//        }
-//    }
-//
-//    // 수정 대상의 이메일을 입력받고 조회에 성공하면 패스워드를 수정
-//    public void updatePassword() {
-//        String inputEmail = si.input("# 수정하실 회원의 이메일을 입력하세요.\n>> ");
-//
-//        // 이메일이 일치하는 회원이 있는지 조회
-//        Member foundMember = mr.findMemberByEmail(inputEmail);
-//
-//        if (foundMember != null) {
-//
-//            // 기존 비밀번호를 입력해주세요
-//
-//            // 비번 수정
-//            System.out.printf("# %s님의 비밀번호를 변경합니다.\n", foundMember.memberName);
-//            String newPassword = si.input("# 새 비밀번호: ");
-//
-//            // 회원정보 실제로 수정
-////            foundMember.password = newPassword;
-//            foundMember.changePassword(newPassword);
-//
-//            System.out.println("# 비밀번호 변경이 완료되었습니다.");
-//        } else {
-//            System.out.println("\n# 해당 회원은 존재하지 않습니다.");
-//        }
-//    }
-//
-//    public void deleteMember() {
-//        String inputEmail = si.input("# 삭제하실 회원의 이메일을 입력하세요.\n>> ");
-//
-//        // 이메일이 일치하는 회원이 있는지 조회
-//        Member foundMember = mr.findMemberByEmail(inputEmail);
-//
-//        if (foundMember != null) {
-//            // 삭제 진행
-//            // 패스워드 검사
-//            String inputPw = si.input("# 비밀번호를 입력: ");
-//            if (inputPw.equals(foundMember.password)) {
-//                //삭제
-//                mr.removeMember(inputEmail);
-//                System.out.printf("# %s님의 회원정보가 삭제되었습니다.\n", foundMember.memberName);
-//            } else {
-//                System.out.println("\n# 비밀번호가 일치하지 않습니다. 탈퇴를 취소합니다.");
-//            }
-//        } else {
-//            System.out.println("\n# 해당 회원은 존재하지 않습니다.");
-//        }
-//
-//    }
-//
-//    // 회원 복구에 관련한 입출력 처리
-//    public void restoreMember() {
-//        String inputEmail = si.input("# 복구하실 회원의 이메일을 입력하세요.\n>> ");
-//
-//        // 이메일이 일치하는 회원이 복구리스트에 있는지 조회
-//        Member foundMember = mr.findRestoreMemberByEmail(inputEmail);
-//
-//        if (foundMember != null) {
-//            // 패스워드 검사
-//            String inputPw = si.input("# 비밀번호를 입력: ");
-//            if (inputPw.equals(foundMember.password)) {
-//                mr.restore(inputEmail);
-//            } else {
-//                System.out.println("\n# 비밀번호가 일치하지 않습니다. 복구를 취소합니다.");
-//            }
-//        } else {
-//            System.out.println("\n# 해당 회원은 복구 대상이 않습니다.");
-//        }
-//    }
-//}
-//}
+package day09.book;
+
+import day05.StringList;
+import util.SimpleInput;
+
+import static util.SimpleInput.input;
+
+public class LibraryView {
+
+    private static LibraryRepository repository;
+    SimpleInput si;
+
+
+    static {
+        repository = new LibraryRepository();
+    }
+
+    // 회원정보 조회 위해 입력을 처리
+    void makeNewBookUser() {
+        System.out.println("\n# 회원 정보를 입력해주세요");
+        String name = input("# 이름: ");
+        int age = Integer.parseInt(input("# 나이: "));
+        Gender g;
+        while (true) {
+            String gender = input("# 성별(M/F): ").toUpperCase();
+            if (gender.equals("M")) {
+                g = Gender.MALE;
+                break;
+            } else if ( gender.equals("F")) {
+                g = Gender.FEMALE;
+                break;
+            }
+            System.out.println("# 성별을 잘못 입력했습니다.");
+        }
+        repository.saveBookUser(new BookUser(name, age, g,0));
+    }
+
+
+    // 메뉴를 출력하는 기능
+    public void showMainScreen() {
+        System.out.println("\n============ 도서 메뉴 ==============");
+        System.out.println("# 1. 마이페이지");
+        System.out.println("# 2. 도서 전체 조회");
+        System.out.println("# 3. 도서 제목으로 검색");
+        System.out.println("# 4. 도서 대여하기");
+        System.out.println("# 9. 프로그램 종료하기");
+    }
+
+    // 코드의 흐름을 캡슐화
+    public void start() {
+        makeNewBookUser();
+
+        while (true) {
+            showMainScreen();
+            String menuNum = input("- 메뉴 번호 : ");
+
+            switch (menuNum) {
+                case "1":
+                    showUser();
+                    break;
+                case "2":
+                    displayAllBooks();
+                    break;
+                case "3":
+                    searchBook();
+                    break;
+                case "4":
+                    rentBook();
+                    break;
+                case "9":
+                    System.out.println("# 프로그램을 종료합니다!!");
+                    return;
+                default:
+                    System.out.println("# 올바른 메뉴 번호를 입력하세요!");
+            }
+        }
+    }
+
+    private void rentBook() {
+        displayAllBooks();
+        String bookNum = input("대여할 도서 번호 입력: ");
+        // 저장소에 대여 가능한 지 여부 검증
+        RentStatus status = repository.rentBook(Integer.parseInt(bookNum));
+
+        if (status == RentStatus.RENT_SUCCESS_WITH_COUPON) {
+            System.out.println("# 성공적으로 요리책이 쿠폰발급과 함께 대여되었습니다.");
+        } else if (status == RentStatus.RENT_SUCCESS) {
+            System.out.println("# 도서가 성공적으로 대여되었습니다.");
+        } else {
+            System.out.println("# 도서 대여에 실패했습니다.");
+        }
+    }
+
+    private void searchBook() {
+
+    }
+
+    private void showUser() {
+        System.out.println("회원 정보");
+        BookUser user = repository.회원정보내놔();
+
+        System.out.println("# 이름: " + user.getName());
+        System.out.println("# 나이: " + user.getAge());
+        System.out.println("# 성별: " + user.getGender());
+        System.out.println("# 쿠폰개수: " + user.getCouponCount());
+
+    }
+
+    private void displayAllBooks() {
+        System.out.println("전체 도서 목록");
+        Book[] informationList = repository.getAllBooksInfo();
+
+        for (int i = 0; i < informationList.length; i++) {
+            Book book = informationList[i];
+            System.out.printf("%d. %s\n", i+1, book.info());
+        }
+    }
+}

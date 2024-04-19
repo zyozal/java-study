@@ -1,4 +1,4 @@
-package book;
+package day09.book;
 
 public enum RentStatus {
 
