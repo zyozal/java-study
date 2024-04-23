@@ -1,7 +1,9 @@
 package day09.book;
 
-public class BookList {
 
+import java.util.Iterator;
+
+public class BookList implements Iterable {
 
     private Book[] bArr;
 
@@ -12,7 +14,7 @@ public class BookList {
     }
 
     // 맨 끝에 추가
-    void push(Book newBook) {
+    public void push(Book newBook) {
         Book[] temp = new Book[this.bArr.length + 1];
         for (int i = 0; i < this.bArr.length; i++) {
             temp[i] = this.bArr[i];
@@ -56,5 +58,10 @@ public class BookList {
 
     public Book get(int index) {
         return bArr[index];
+    }
+
+    @Override
+    public Iterator iterator() {
+        return null;
     }
 }
