@@ -28,6 +28,7 @@ public class FilterApple {
 
     /**
      * @solution - try2 : 색상을 파라미터화하여 원하는 컬러의 사과를 필터링한다
+     * @problem - 필터기준이 색상이 아니라 무게기준??
      * @param basket
      * @param color - 원하는 필터링 색상
      * @return
@@ -44,5 +45,44 @@ public class FilterApple {
         }
         return filteredApples;
     }
+
+
+    // 필터링 조건을 파라미터화 할 수는 없을까?
+    /**
+     * @solution - try3: 동작(메서드)을 추상화시켜 파라미터화한다.
+     * @problem - 필터링 대상이 사과가 아니라 오렌지면? 학생이면?
+     * @param basket
+     * @return
+     */
+    public static List<Apple> filterApples(List<Apple> basket, ApplePredicate p) {
+        List<Apple> filteredApples = new ArrayList<>();
+
+        for (Apple apple : basket) {
+            if (p.test(apple)) {
+                filteredApples.add(apple);
+            }
+        }
+        return filteredApples;
+    }
+
+    /**
+     * @solution - try4: 여러 객체들을 필터링
+     * @param basket
+     * @param p
+     * @return
+     */
+    public static <T> List<T> filter(List<T> basket, GenericPredicate<T> p) {
+
+        List<T> filteredList = new ArrayList<>();
+
+        for (T t : basket) {
+            if (p.test(t)) {
+                filteredList.add(t);
+            }
+        }
+        return filteredList;
+    }
+
+
 
 }
